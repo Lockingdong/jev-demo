@@ -305,80 +305,65 @@ const AnswerVisualCard: React.FC<{
   );
 };
 
-// 1. Noul Visualizer
+// 1. Noul Visualizer (Streamlined)
 const NoulVisual: React.FC<{
   answer: NoulAnswer;
   questionDef?: NoulQuestion;
-}> = ({ answer, questionDef }) => {
+}> = ({ answer }) => {
   const prob = typeof answer.noul === "number" ? answer.noul : 0;
   const percentage = Math.round(prob * 100);
-  const falsePercent = Math.max(0, 100 - percentage);
   const isHighMatch = prob >= 0.5;
 
   return (
     <div className="noul-visual-box">
-      {/* Probability Summary Row */}
+      {/* Decision Summary */}
       <div className="noul-header-row">
         <div className="noul-prob-display">
-          <div className={`noul-prob-number ${isHighMatch ? "high" : "low"}`}>
-            {(prob * 100).toFixed(1)}%
-          </div>
-          <span className="noul-prob-label">
-            {isHighMatch ? "判定傾向符合 true 準則" : "判定傾向符合 false 準則"}
+          <span
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "0.28rem 0.75rem",
+              borderRadius: "8px",
+              fontWeight: 800,
+              fontSize: "0.95rem",
+              letterSpacing: "0.03em",
+              background: isHighMatch ? "rgba(16, 185, 129, 0.12)" : "rgba(100, 116, 139, 0.12)",
+              color: isHighMatch ? "#059669" : "#64748b",
+              border: isHighMatch ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(100, 116, 139, 0.25)",
+            }}
+          >
+            {isHighMatch ? "TRUE" : "FALSE"}
           </span>
-        </div>
-
-        <div style={{ textAlign: "right" }}>
-          <div style={{ fontSize: "0.8rem", color: "var(--text-dim)" }}>模型輸出機率 (noul)</div>
-          <div style={{ fontSize: "1.15rem", fontWeight: 700, color: "#0284c7", fontFamily: "ui-monospace, monospace" }}>
-            {prob.toFixed(3)}
+          <div className={`noul-prob-number ${isHighMatch ? "high" : "low"}`}>
+            {percentage}%
           </div>
         </div>
       </div>
 
-      {/* Probability Distribution Slider Bar */}
+      {/* Streamlined False <---> True Progress Bar */}
       <div className="noul-gauge-container">
         <div className="noul-gauge-track">
           <div className="noul-gauge-fill" style={{ width: `${percentage}%` }} />
         </div>
         <div className="noul-gauge-ticks">
-          <span>false 準則 (0.0)</span>
-          <span style={{ opacity: 0.6 }}>0.5 閾值</span>
-          <span style={{ color: isHighMatch ? "#059669" : "var(--text-dim)" }}>true 準則 (1.0)</span>
-        </div>
-      </div>
-
-      {/* Detailed Criteria Comparison with Probs */}
-      <div className="noul-criteria-list">
-        {/* true row */}
-        <div className={`noul-criteria-row ${isHighMatch ? "active" : ""}`}>
-          <div className="noul-criteria-tag">
-            {isHighMatch ? "★ true 準則 (" + percentage + "%)" : "true 準則 (" + percentage + "%)"}
-          </div>
-          <div className="noul-criteria-desc">
-            {questionDef?.criteria?.true || "符合情境敘述"}
-          </div>
-        </div>
-
-        {/* false row */}
-        <div className={`noul-criteria-row ${!isHighMatch ? "active" : ""}`}>
-          <div className="noul-criteria-tag">
-            {!isHighMatch ? "★ false 準則 (" + falsePercent + "%)" : "false 準則 (" + falsePercent + "%)"}
-          </div>
-          <div className="noul-criteria-desc">
-            {questionDef?.criteria?.false || "不符合情境敘述"}
-          </div>
+          <span style={{ color: !isHighMatch ? "#64748b" : "var(--text-dim)", fontWeight: !isHighMatch ? 700 : 500 }}>
+            False
+          </span>
+          <span style={{ color: isHighMatch ? "#059669" : "var(--text-dim)", fontWeight: isHighMatch ? 700 : 500 }}>
+            True
+          </span>
         </div>
       </div>
     </div>
   );
 };
 
-// 2. Choice Visualizer
+// 2. Choice Visualizer (Streamlined)
 const ChoiceVisual: React.FC<{
   answer: ChoiceAnswer;
   questionDef?: ChoiceQuestion;
-}> = ({ answer, questionDef }) => {
+}> = ({ answer }) => {
   const winner = answer.choice;
   const confidence = answer.confidence !== undefined ? Math.round(answer.confidence * 100) : null;
   const probabilities = answer.probabilities || {};
@@ -388,10 +373,10 @@ const ChoiceVisual: React.FC<{
     <div>
       <div className="choice-winner-banner">
         <div className="choice-winner-info">
-          <Award className="w-5 h-5 text-blue-400" />
+          <Award className="w-5 h-5 text-blue-500" />
           <div>
-            <div style={{ fontSize: "0.82rem", color: "var(--text-dim)", textTransform: "uppercase", fontWeight: 600 }}>
-              最佳決策選定
+            <div style={{ fontSize: "0.78rem", color: "var(--text-dim)", textTransform: "uppercase", fontWeight: 600 }}>
+              最佳選定
             </div>
             <div className="choice-winner-name">{winner}</div>
           </div>
@@ -399,7 +384,7 @@ const ChoiceVisual: React.FC<{
 
         {confidence !== null && (
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: "0.82rem", color: "var(--text-dim)" }}>信心指數</div>
+            <div style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>信心指數</div>
             <div style={{ fontSize: "1.25rem", fontWeight: 800, color: "#2563eb" }}>
               {confidence}%
             </div>
@@ -412,28 +397,20 @@ const ChoiceVisual: React.FC<{
           {probEntries.map(([choiceKey, p]) => {
             const isWinner = choiceKey === winner;
             const pPercent = Math.round(p * 100);
-            const desc = questionDef?.criteria?.[choiceKey];
 
             return (
               <div key={choiceKey} className="choice-bar-item">
                 <div className="choice-bar-meta">
-                  <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                    <span
-                      style={{
-                        fontWeight: isWinner ? 700 : 500,
-                        color: isWinner ? "#2563eb" : "var(--text-muted)",
-                        fontFamily: "monospace",
-                        fontSize: "0.95rem",
-                      }}
-                    >
-                      {choiceKey}
-                    </span>
-                    {desc && (
-                      <span style={{ fontSize: "0.84rem", color: "var(--text-dim)" }}>
-                        - {desc}
-                      </span>
-                    )}
-                  </div>
+                  <span
+                    style={{
+                      fontWeight: isWinner ? 700 : 500,
+                      color: isWinner ? "#2563eb" : "var(--text-muted)",
+                      fontFamily: "monospace",
+                      fontSize: "0.95rem",
+                    }}
+                  >
+                    {choiceKey}
+                  </span>
                   <span style={{ fontWeight: 700, color: isWinner ? "#1d4ed8" : "var(--text-dim)", fontSize: "0.92rem" }}>
                     {pPercent}%
                   </span>
@@ -459,7 +436,7 @@ const ChoiceVisual: React.FC<{
   );
 };
 
-// 3. Score Visualizer
+// 3. Score Visualizer (Streamlined)
 const ScoreVisual: React.FC<{
   answer: ScoreAnswer;
   questionDef?: ScoreQuestion;
@@ -471,17 +448,6 @@ const ScoreVisual: React.FC<{
   const confidence = answer.confidence !== undefined ? Math.round(answer.confidence * 100) : null;
   const normalizedMax = maxScore > 0 ? maxScore : 1;
   const progressPercent = Math.min(100, Math.max(0, (scoreVal / normalizedMax) * 100));
-
-  let activeIndex = Math.round(scoreVal);
-  if (answer.probabilities) {
-    let maxP = -1;
-    for (const [k, p] of Object.entries(answer.probabilities)) {
-      if (typeof p === "number" && p > maxP) {
-        maxP = p;
-        activeIndex = Number(k);
-      }
-    }
-  }
 
   return (
     <div className="score-visual-box">
@@ -496,7 +462,7 @@ const ScoreVisual: React.FC<{
 
         {confidence !== null && (
           <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: "0.82rem", color: "var(--text-dim)" }}>信心指數</div>
+            <div style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>信心指數</div>
             <div style={{ fontSize: "1.25rem", fontWeight: 800, color: "#d97706" }}>
               {confidence}%
             </div>
@@ -511,42 +477,17 @@ const ScoreVisual: React.FC<{
         </div>
         <div className="score-scale-ticks">
           {Array.from({ length: maxScore + 1 }).map((_, i) => (
-            <span key={i} style={{ color: Math.round(scoreVal) === i ? "#d97706" : "var(--text-dim)" }}>
+            <span
+              key={i}
+              style={{
+                color: Math.round(scoreVal) === i ? "#d97706" : "var(--text-dim)",
+                fontWeight: Math.round(scoreVal) === i ? 700 : 500,
+              }}
+            >
               {i}
             </span>
           ))}
         </div>
-      </div>
-
-      {/* Vertical Levels List - No more wrapping issues! */}
-      <div className="score-levels-list">
-        {criteriaList.map((desc, idx) => {
-          const isActive = activeIndex === idx;
-          const prob = answer.probabilities?.[String(idx)];
-          const probPercent = prob !== undefined ? Math.round(prob * 100) : null;
-
-          return (
-            <div key={idx} className={`score-level-row ${isActive ? "active" : ""}`}>
-              <div className="score-level-badge">
-                {isActive ? "★ 等級 " + idx : "等級 " + idx}
-              </div>
-
-              <div className="score-level-desc">{desc}</div>
-
-              {probPercent !== null && (
-                <div className="score-level-meta">
-                  <span className="score-level-prob-text">{probPercent}%</span>
-                  <div className="score-level-mini-bar">
-                    <div
-                      className="score-level-mini-fill"
-                      style={{ width: `${probPercent}%` }}
-                    />
-                  </div>
-                </div>
-              )}
-            </div>
-          );
-        })}
       </div>
     </div>
   );

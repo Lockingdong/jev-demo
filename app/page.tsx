@@ -12,7 +12,7 @@ import { Play, Sparkles, AlertCircle } from "lucide-react";
 
 export default function Home() {
   const [selectedPreset, setSelectedPreset] = useState<PresetScenario>(PRESET_SCENARIOS[0]);
-  const [model, setModel] = useState<string>("typesafe/jev-1.13");
+  const model = "typesafe/jev-1.13";
   const [stateValue, setStateValue] = useState<string | Record<string, unknown>>(
     PRESET_SCENARIOS[0].state
   );
@@ -27,7 +27,6 @@ export default function Home() {
 
   const handleSelectPreset = (preset: PresetScenario) => {
     setSelectedPreset(preset);
-    setModel(preset.model || "typesafe/jev-1.13");
     setStateValue(preset.state);
     setQuestions(preset.questions);
     setResponse(null);
@@ -97,7 +96,7 @@ export default function Home() {
   return (
     <div className="container-root">
       {/* Top Navigation */}
-      <Header model={model} setModel={setModel} />
+      <Header />
 
       {/* Relatable Preset Scenarios Switcher */}
       <PresetSelector

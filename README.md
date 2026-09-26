@@ -1,6 +1,6 @@
 # ⚡ Jev Model (System One) Local Demo 專案
 
-本專案是依據 [OpenRouter System One API 官方文件](https://openrouter.ai/docs/api/api-reference/systemone/submit-a-system-one-request) 所打造的本機互動式 Web 視覺化 Demo 儀表板，專門展示與測試 TypeSafe 開發的 **Jev** 決策模型（`typesafe/jev-latest`、`typesafe/jev-1.13`）。
+本專案是依據 [OpenRouter System One API 官方文件](https://openrouter.ai/docs/api/api-reference/systemone/submit-a-system-one-request) 所打造的本機互動式 Web 視覺化 Demo 儀表板，專門展示與測試 TypeSafe 開發的 **Jev** 決策模型（`typesafe/jev-1.13`）。
 
 ---
 
@@ -77,11 +77,11 @@ jev-demo/
 ## 📖 Jev API 規範說明 (OpenRouter System One)
 
 - **API Endpoint**: `POST https://openrouter.ai/api/v1/systemone`
-- **相容 Model ID**: `typesafe/jev-latest`、`typesafe/jev-1.13`（或簡寫 `jev-latest`、`jev-1.13`）
+- **相容 Model ID**: `typesafe/jev-1.13`（或簡寫 `jev-1.13`）
 - **主要請求結構**:
   ```json
   {
-    "model": "typesafe/jev-latest",
+    "model": "typesafe/jev-1.13",
     "state": { "ticket": "...", "tier": "..." },
     "questions": {
       "is_bug": {

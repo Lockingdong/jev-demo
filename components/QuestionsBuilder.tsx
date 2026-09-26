@@ -305,27 +305,16 @@ export const QuestionsBuilder: React.FC<QuestionsBuilderProps> = ({ questions, o
                         <div
                           key={idx}
                           style={{
-                            display: "flex",
-                            alignItems: "flex-start",
-                            gap: "0.55rem",
                             background: "#f8fafc",
                             border: "1px solid #e2e8f0",
                             padding: "0.5rem 0.8rem",
                             borderRadius: "8px",
                             lineHeight: 1.55,
+                            fontSize: "0.88rem",
+                            color: "#334155",
                           }}
                         >
-                          <span
-                            style={{
-                              color: "#475569",
-                              fontWeight: 600,
-                              fontFamily: "ui-monospace, monospace",
-                              whiteSpace: "nowrap",
-                            }}
-                          >
-                            Level {idx}:
-                          </span>
-                          <span style={{ color: "#334155" }}>{desc}</span>
+                          {desc}
                         </div>
                       ))}
                     </div>
@@ -342,9 +331,15 @@ export const QuestionsBuilder: React.FC<QuestionsBuilderProps> = ({ questions, o
                     <input
                       type="text"
                       className="q-key-input"
+                      key={qKey}
                       defaultValue={qKey}
                       onBlur={(e) => handleRenameKey(qKey, e.target.value)}
-                      title="點擊修改鍵名"
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          (e.target as HTMLInputElement).blur();
+                        }
+                      }}
+                      title="點擊修改鍵名 (按 Enter 或點空白處儲存)"
                     />
                     <span className={`type-pill ${q.type}`}>{q.type}</span>
                   </div>
@@ -473,6 +468,23 @@ const ChoiceCriteriaEditor: React.FC<{
     });
   };
 
+  const handleRenameOptionKey = (oldKey: string, newKeyName: string) => {
+    const trimmed = newKeyName.trim();
+    if (!trimmed || trimmed === oldKey) return;
+    const nextCriteria: Record<string, string> = {};
+    for (const [k, v] of Object.entries(question.criteria || {})) {
+      if (k === oldKey) {
+        nextCriteria[trimmed] = v;
+      } else {
+        nextCriteria[k] = v;
+      }
+    }
+    onChange({
+      ...question,
+      criteria: nextCriteria,
+    });
+  };
+
   const handleDeleteOption = (optKey: string) => {
     const nextCriteria = { ...question.criteria };
     delete nextCriteria[optKey];
@@ -514,13 +526,24 @@ const ChoiceCriteriaEditor: React.FC<{
       <div className="criteria-grid">
         {options.map(([optKey, desc]) => (
           <div key={optKey} className="criteria-row">
-            <span className="criteria-key" style={{ color: "#475569" }} title={optKey}>
-              {optKey}:
-            </span>
+            <input
+              type="text"
+              className="option-key-input"
+              key={optKey}
+              defaultValue={optKey}
+              onBlur={(e) => handleRenameOptionKey(optKey, e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  (e.target as HTMLInputElement).blur();
+                }
+              }}
+              placeholder="選項鍵名..."
+              title="點擊修改選項鍵名 (按 Enter 或點空白處儲存)"
+            />
             <input
               type="text"
               className="text-input"
-              style={{ fontSize: "0.9rem" }}
+              style={{ fontSize: "0.9rem", flex: 1 }}
               value={desc}
               onChange={(e) => handleUpdateOption(optKey, e.target.value)}
               placeholder="選項符合條件說明..."
@@ -595,16 +618,13 @@ const ScoreCriteriaEditor: React.FC<{
       <div className="criteria-grid">
         {steps.map((stepDesc, idx) => (
           <div key={idx} className="criteria-row">
-            <span className="criteria-key" style={{ color: "#475569" }}>
-              Level {idx}:
-            </span>
             <input
               type="text"
               className="text-input"
               style={{ fontSize: "0.9rem" }}
               value={stepDesc}
               onChange={(e) => handleUpdateStep(idx, e.target.value)}
-              placeholder={`等級 ${idx} 代表意義...`}
+              placeholder={`階梯 ${idx} 代表意義（如：${idx} 分 ...）`}
             />
             {steps.length > 2 && (
               <button

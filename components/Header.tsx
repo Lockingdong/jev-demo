@@ -1,14 +1,9 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Sparkles, Key, ExternalLink, Zap, RefreshCw } from "lucide-react";
+import { ExternalLink, Zap } from "lucide-react";
 
-interface HeaderProps {
-  model: string;
-  setModel: (m: string) => void;
-}
-
-export const Header: React.FC<HeaderProps> = ({ model, setModel }) => {
+export const Header: React.FC = () => {
   const [keyStatus, setKeyStatus] = useState<{ hasKey: boolean; keyPrefix: string | null } | null>(null);
   const [checking, setChecking] = useState(false);
 
@@ -57,20 +52,6 @@ export const Header: React.FC<HeaderProps> = ({ model, setModel }) => {
       </div>
 
       <div className="nav-controls">
-        {/* Model Selector */}
-        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <select
-            className="select-input"
-            style={{ width: "auto", minWidth: "180px", fontSize: "0.88rem", padding: "0.4rem 0.75rem" }}
-            value={model}
-            onChange={(e) => setModel(e.target.value)}
-          >
-            <option value="typesafe/jev-1.13">typesafe/jev-1.13</option>
-            <option value="jev-1.13">jev-1.13</option>
-            <option value="typesafe/jev-latest">typesafe/jev-latest</option>
-          </select>
-        </div>
-
         {/* API Key Status Pill */}
         <div
           className={`status-pill ${keyStatus?.hasKey ? "ready" : "warning"}`}

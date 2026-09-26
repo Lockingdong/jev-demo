@@ -429,7 +429,31 @@ body::after {
   padding: 0.45rem 0.75rem;
   border-radius: 8px;
   color: #0284c7;
-  max-width: 250px;
+  min-width: 240px;
+  max-width: 440px;
+  flex: 1;
+}
+
+.option-key-input {
+  width: 170px;
+  min-width: 140px;
+  flex-shrink: 0;
+  font-family: ui-monospace, Menlo, Monaco, Consolas, monospace;
+  font-weight: 700;
+  font-size: 0.88rem;
+  color: #0284c7;
+  background: rgba(241, 245, 249, 0.9);
+  border: 1px solid rgba(203, 213, 225, 0.9);
+  border-radius: 8px;
+  padding: 0.45rem 0.65rem;
+  transition: all 0.2s ease;
+}
+
+.option-key-input:focus {
+  outline: none;
+  background: #ffffff;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 .type-pill {
