@@ -32,7 +32,7 @@ export const Header: React.FC = () => {
         </div>
         <div className="nav-titles">
           <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <h1>Jev System One Playground</h1>
+            <h1>Jev Playground</h1>
             <span
               style={{
                 fontSize: "0.78rem",
@@ -67,8 +67,8 @@ export const Header: React.FC = () => {
             {checking
               ? "連線中..."
               : keyStatus?.hasKey
-              ? "API 已就緒"
-              : "未設定 Key"}
+                ? "API 已就緒"
+                : "未設定 Key"}
           </span>
         </div>
 

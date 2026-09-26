@@ -19,7 +19,6 @@ import {
   Cpu,
   Copy,
   Check,
-  Award,
   BarChart3,
   Code,
   Gauge,
@@ -223,7 +222,7 @@ export const ResultsViewer: React.FC<ResultsViewerProps> = ({
                 尚未執行評估
               </div>
               <div style={{ fontSize: "0.85rem", color: "var(--text-dim)" }}>
-                點擊上方「🚀 執行 Jev 決策評估」或按 ⌘ + Enter 檢視分析報告
+                點擊上方「執行評估」檢視分析報告
               </div>
             </div>
           ) : (
@@ -259,7 +258,7 @@ export const ResultsViewer: React.FC<ResultsViewerProps> = ({
           json={
             response
               ? JSON.stringify(response, null, 2)
-              : "// 尚未執行評估，請點擊上方「🚀 執行 Jev 決策評估」送出請求以取得 Response JSON"
+              : "// 尚未執行評估，請點擊上方「執行評估」送出請求以取得 Response JSON"
           }
           onCopy={
             response
@@ -365,33 +364,11 @@ const ChoiceVisual: React.FC<{
   questionDef?: ChoiceQuestion;
 }> = ({ answer }) => {
   const winner = answer.choice;
-  const confidence = answer.confidence !== undefined ? Math.round(answer.confidence * 100) : null;
   const probabilities = answer.probabilities || {};
   const probEntries = Object.entries(probabilities);
 
   return (
     <div>
-      <div className="choice-winner-banner">
-        <div className="choice-winner-info">
-          <Award className="w-5 h-5 text-blue-500" />
-          <div>
-            <div style={{ fontSize: "0.78rem", color: "var(--text-dim)", textTransform: "uppercase", fontWeight: 600 }}>
-              最佳選定
-            </div>
-            <div className="choice-winner-name">{winner}</div>
-          </div>
-        </div>
-
-        {confidence !== null && (
-          <div style={{ textAlign: "right" }}>
-            <div style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>信心指數</div>
-            <div style={{ fontSize: "1.25rem", fontWeight: 800, color: "#2563eb" }}>
-              {confidence}%
-            </div>
-          </div>
-        )}
-      </div>
-
       {probEntries.length > 0 && (
         <div className="choice-bars-group">
           {probEntries.map(([choiceKey, p]) => {

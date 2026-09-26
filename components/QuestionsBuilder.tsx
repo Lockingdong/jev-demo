@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { AnyQuestion, NoulQuestion, ChoiceQuestion, ScoreQuestion, QuestionType } from "@/lib/types";
+import { AnyQuestion, NoulQuestion, ChoiceQuestion, ScoreQuestion } from "@/lib/types";
 import { HelpCircle, Plus, Trash2, Sliders, CheckCircle2, ListOrdered } from "lucide-react";
 
 interface QuestionsBuilderProps {
@@ -11,10 +11,6 @@ interface QuestionsBuilderProps {
 
 export const QuestionsBuilder: React.FC<QuestionsBuilderProps> = ({ questions, onChange }) => {
   const [isCustomizing, setIsCustomizing] = useState(false);
-  const [showAddModal, setShowAddModal] = useState(false);
-  const [newKey, setNewKey] = useState("");
-  const [newType, setNewType] = useState<QuestionType>("noul");
-  const [newInstructions, setNewInstructions] = useState("");
 
   const questionEntries = Object.entries(questions);
 
@@ -45,46 +41,6 @@ export const QuestionsBuilder: React.FC<QuestionsBuilderProps> = ({ questions, o
     onChange(newQuestions);
   };
 
-  const handleAddQuestion = () => {
-    const key = newKey.trim() || `question_${Date.now()}`;
-    let newQ: AnyQuestion;
-
-    if (newType === "noul") {
-      newQ = {
-        type: "noul",
-        instructions: newInstructions.trim() || "此條件是否成立？",
-        criteria: {
-          true: "符合情境敘述",
-          false: "不符合情境敘述",
-        },
-      };
-    } else if (newType === "choice") {
-      newQ = {
-        type: "choice",
-        instructions: newInstructions.trim() || "下列哪一個選項最符合？",
-        criteria: {
-          option_a: "第一種處置或分類",
-          option_b: "第二種處置或分類",
-        },
-      };
-    } else {
-      newQ = {
-        type: "score",
-        instructions: newInstructions.trim() || "評估其等級或評分？",
-        criteria: ["低階 / 輕微", "中階 / 普通", "高階 / 極度顯著"],
-      };
-    }
-
-    onChange({
-      ...questions,
-      [key]: newQ,
-    });
-
-    setNewKey("");
-    setNewInstructions("");
-    setShowAddModal(false);
-  };
-
   return (
     <div className="glass-card">
       <div className="card-header" style={{ marginBottom: "0.85rem", paddingBottom: "0.6rem" }}>
@@ -95,18 +51,6 @@ export const QuestionsBuilder: React.FC<QuestionsBuilderProps> = ({ questions, o
         </div>
 
         <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          {isCustomizing && (
-            <button
-              type="button"
-              className="btn-secondary"
-              onClick={() => setShowAddModal(true)}
-              style={{ fontSize: "0.82rem", padding: "0.32rem 0.65rem" }}
-            >
-              <Plus className="w-3.5 h-3.5 text-pink-400" />
-              <span>新增</span>
-            </button>
-          )}
-
           <button
             type="button"
             className="btn-secondary"
@@ -119,91 +63,11 @@ export const QuestionsBuilder: React.FC<QuestionsBuilderProps> = ({ questions, o
         </div>
       </div>
 
-      {/* Add Question Dialog */}
-      {isCustomizing && showAddModal && (
-        <div
-          style={{
-            background: "#ffffff",
-            border: "1px solid rgba(79, 70, 229, 0.25)",
-            borderRadius: "14px",
-            padding: "1.25rem",
-            marginBottom: "1.25rem",
-            boxShadow: "0 12px 30px -4px rgba(79, 70, 229, 0.15)",
-          }}
-        >
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "0.85rem" }}>
-            <span style={{ fontSize: "1rem", fontWeight: 700, color: "#0f172a" }}>
-              ✨ 新增決策問題
-            </span>
-            <button
-              type="button"
-              onClick={() => setShowAddModal(false)}
-              className="btn-danger"
-              style={{ fontSize: "0.82rem" }}
-            >
-              取消
-            </button>
-          </div>
-
-          <div style={{ display: "grid", gridTemplateColumns: "1.2fr 1fr", gap: "0.85rem", marginBottom: "0.85rem" }}>
-            <div>
-              <label style={{ display: "block", fontSize: "0.82rem", color: "var(--text-dim)", marginBottom: "0.35rem" }}>
-                問題鍵值 (Key)
-              </label>
-              <input
-                type="text"
-                className="text-input"
-                placeholder="例如: is_crisis_review..."
-                value={newKey}
-                onChange={(e) => setNewKey(e.target.value)}
-              />
-            </div>
-
-            <div>
-              <label style={{ display: "block", fontSize: "0.82rem", color: "var(--text-dim)", marginBottom: "0.35rem" }}>
-                決策類型 (Type)
-              </label>
-              <select
-                className="select-input"
-                value={newType}
-                onChange={(e) => setNewType(e.target.value as QuestionType)}
-              >
-                <option value="noul">noul (布林判定)</option>
-                <option value="choice">choice (多選分類)</option>
-                <option value="score">score (階梯評分)</option>
-              </select>
-            </div>
-          </div>
-
-          <div style={{ marginBottom: "0.85rem" }}>
-            <label style={{ display: "block", fontSize: "0.82rem", color: "var(--text-dim)", marginBottom: "0.35rem" }}>
-              問題指示 (Instructions)
-            </label>
-            <input
-              type="text"
-              className="text-input"
-              placeholder="請輸入給 Jev 的具體決策判斷指示..."
-              value={newInstructions}
-              onChange={(e) => setNewInstructions(e.target.value)}
-            />
-          </div>
-
-          <button
-            type="button"
-            className="btn-run"
-            onClick={handleAddQuestion}
-            style={{ padding: "0.65rem", fontSize: "0.92rem" }}
-          >
-            確認建立此問題
-          </button>
-        </div>
-      )}
-
       {/* Question Cards List */}
       <div className="questions-list">
         {questionEntries.length === 0 ? (
           <div style={{ padding: "1.5rem", textAlign: "center", color: "var(--text-dim)", fontSize: "0.9rem" }}>
-            尚未設定任何問題，請點擊上方「自訂題目」新增或選擇範例。
+            尚未設定任何問題，請選擇上方範例情境。
           </div>
         ) : (
           questionEntries.map(([qKey, q]) => {

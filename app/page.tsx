@@ -138,24 +138,12 @@ export default function Home() {
                     }}
                     className="animate-spin"
                   />
-                  <span>Jev 正在推論評估中...</span>
+                  <span>評估中...</span>
                 </>
               ) : (
                 <>
-                  <Play className="w-5 h-5 fill-current" />
-                  <span>🚀 執行 Jev 決策評估 (Run System One)</span>
-                  <span
-                    style={{
-                      fontSize: "0.72rem",
-                      background: "rgba(0, 0, 0, 0.25)",
-                      padding: "0.2rem 0.5rem",
-                      borderRadius: "6px",
-                      opacity: 0.85,
-                      fontWeight: 500,
-                    }}
-                  >
-                    ⌘ + Enter
-                  </span>
+                  <Play className="w-4 h-4 fill-current" />
+                  <span>執行評估</span>
                 </>
               )}
             </button>
