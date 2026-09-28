@@ -19,6 +19,7 @@ import {
   Cpu,
   Copy,
   Check,
+  Award,
   BarChart3,
   Code,
   Gauge,
@@ -364,11 +365,35 @@ const ChoiceVisual: React.FC<{
   questionDef?: ChoiceQuestion;
 }> = ({ answer }) => {
   const winner = answer.choice;
+  const confidence = answer.confidence !== undefined ? Math.round(answer.confidence * 100) : null;
   const probabilities = answer.probabilities || {};
   const probEntries = Object.entries(probabilities);
 
   return (
     <div>
+      {winner && (
+        <div className="choice-winner-banner">
+          <div className="choice-winner-info">
+            <Award className="w-5 h-5 text-blue-500" />
+            <div>
+              <div style={{ fontSize: "0.78rem", color: "var(--text-dim)", textTransform: "uppercase", fontWeight: 600 }}>
+                最佳選擇
+              </div>
+              <div className="choice-winner-name">{winner}</div>
+            </div>
+          </div>
+
+          {confidence !== null && (
+            <div style={{ textAlign: "right" }}>
+              <div style={{ fontSize: "0.78rem", color: "var(--text-dim)" }}>信心指數</div>
+              <div style={{ fontSize: "1.25rem", fontWeight: 800, color: "#2563eb" }}>
+                {confidence}%
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
       {probEntries.length > 0 && (
         <div className="choice-bars-group">
           {probEntries.map(([choiceKey, p]) => {
@@ -384,9 +409,26 @@ const ChoiceVisual: React.FC<{
                       color: isWinner ? "#2563eb" : "var(--text-muted)",
                       fontFamily: "monospace",
                       fontSize: "0.95rem",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      gap: "0.45rem",
                     }}
                   >
-                    {choiceKey}
+                    <span>{choiceKey}</span>
+                    {isWinner && (
+                      <span
+                        style={{
+                          fontSize: "0.72rem",
+                          fontWeight: 700,
+                          padding: "0.1rem 0.45rem",
+                          borderRadius: "4px",
+                          background: "rgba(37, 99, 235, 0.1)",
+                          color: "#2563eb",
+                        }}
+                      >
+                        最佳選擇
+                      </span>
+                    )}
                   </span>
                   <span style={{ fontWeight: 700, color: isWinner ? "#1d4ed8" : "var(--text-dim)", fontSize: "0.92rem" }}>
                     {pPercent}%
