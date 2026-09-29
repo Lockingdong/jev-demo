@@ -66,4 +66,34 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
       },
     },
   },
+  {
+    id: "hybrid-ramen-crisis-cause",
+    title: "🍱 雙重判定：拉麵爭議綜合分析",
+    category: "Noul + Choice",
+    badge: "Noul + Choice 範例",
+    description: "同時輸出公關危機真實機率 (Noul) 與核心客訴癥結點分類 (Choice)，展示多維決策評估能力。",
+    model: "typesafe/jev-1.13",
+    state:
+      "排隊排了快兩小時，進去後湯頭死鹹像醬油水、叉燒全是肥油發酸。跟外場主管反應肉質有酸味，主管非但不道歉還白眼嘲諷說『不懂正統拉麵就別來吃』。當場要求退款被直接拒絕，態度囂張惡劣至極！已經錄音拍照存證，將向消保官申訴並在社群全面公開抵制這家雷店！",
+    questions: {
+      is_crisis_review: {
+        type: "noul",
+        instructions: "評論是否屬重大公關危機或消保爭議之負評？",
+        criteria: {
+          true: "指控態度惡劣、拒絕退款、申訴消保官或社群抵制",
+          false: "一般口味鹹淡或餐點普通評價",
+        },
+      },
+      primary_complaint_cause: {
+        type: "choice",
+        instructions: "此則客訴最核心主要不滿維度為何？",
+        criteria: {
+          staff_attitude_conflict: "外場主管態度惡劣與言語嘲諷",
+          food_quality_spoilage: "食材品質瑕疵（叉燒發酸、湯頭死鹹）",
+          billing_refund_dispute: "退費處理遭拒糾紛",
+          excessive_queue_delay: "入場排隊等候過久",
+        },
+      },
+    },
+  },
 ];

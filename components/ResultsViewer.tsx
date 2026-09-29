@@ -319,22 +319,6 @@ const NoulVisual: React.FC<{
       {/* Decision Summary */}
       <div className="noul-header-row">
         <div className="noul-prob-display">
-          <span
-            style={{
-              display: "inline-flex",
-              alignItems: "center",
-              padding: "0.28rem 0.75rem",
-              borderRadius: "8px",
-              fontWeight: 800,
-              fontSize: "0.95rem",
-              letterSpacing: "0.03em",
-              background: isHighMatch ? "rgba(16, 185, 129, 0.12)" : "rgba(100, 116, 139, 0.12)",
-              color: isHighMatch ? "#059669" : "#64748b",
-              border: isHighMatch ? "1px solid rgba(16, 185, 129, 0.3)" : "1px solid rgba(100, 116, 139, 0.25)",
-            }}
-          >
-            {isHighMatch ? "TRUE" : "FALSE"}
-          </span>
           <div className={`noul-prob-number ${isHighMatch ? "high" : "low"}`}>
             {percentage}%
           </div>

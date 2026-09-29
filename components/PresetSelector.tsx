@@ -15,6 +15,7 @@ export const PresetSelector: React.FC<PresetSelectorProps> = ({ currentPresetId,
     if (preset.id === "noul-ramen-complaint") return "🍜 拉麵負評危機 (Noul)";
     if (preset.id === "choice-steakhouse-feedback") return "🥩 牛排客訴主因 (Choice)";
     if (preset.id === "score-hotpot-satisfaction") return "🍲 火鍋滿意度 (Score)";
+    if (preset.id === "hybrid-ramen-crisis-cause") return "🍱 拉麵綜合分析 (Noul + Choice)";
     return preset.title;
   };
 
