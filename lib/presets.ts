@@ -29,14 +29,14 @@ export const PRESET_SCENARIOS: PresetScenario[] = [
     description: "在常見客訴維度中計算各選項機率，自動精準定位核心不滿癥結點。",
     model: "typesafe/jev-1.13",
     state:
-      "五分熟牛排煎成全熟焦柴，反應後重做竟然等了 40 分鐘，朋友都吃飽了我的才來。結帳照收服務費且無致歉，體驗超差。",
+      "牛排熟度煎得太生，送回廚房重做又讓我們等了快 20 分鐘，朋友都快吃飽了我的才來，整體用餐體驗大打折扣。",
     questions: {
       primary_complaint_cause: {
         type: "choice",
         instructions: "此則負評最主要核心不滿為何？",
         criteria: {
-          food_doneness_failure: "熟度失誤（全熟焦柴）",
-          kitchen_remake_delay: "重做等待過久（等 40 分鐘）",
+          food_doneness_failure: "熟度掌控失誤",
+          kitchen_remake_delay: "重做等待過久",
           service_compensation_lacking: "缺乏補償與致歉",
           price_value_mismatch: "消費高價但體驗落差大",
         },

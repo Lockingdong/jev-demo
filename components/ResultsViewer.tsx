@@ -425,8 +425,8 @@ const ChoiceVisual: React.FC<{
                     style={{
                       width: `${pPercent}%`,
                       background: isWinner
-                        ? "linear-gradient(90deg, #3b82f6, #06b6d4)"
-                        : "rgba(226, 232, 240, 0.8)",
+                        ? "linear-gradient(90deg, #2563eb, #06b6d4)"
+                        : "linear-gradient(90deg, #94a3b8, #cbd5e1)",
                     }}
                   />
                 </div>
