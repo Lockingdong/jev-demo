@@ -32,12 +32,19 @@
 
 ## 🚀 快速開始
 
-### 1. 配置 OpenRouter API Key
+### 1. 取得並配置 OpenRouter API Key
 
-在專案根目錄建立 `.env.local` 檔案（可參考 `.env.example`）：
+1. **申請金鑰**：
+   - 前往 [OpenRouter 官方網站](https://openrouter.ai/) 登入或註冊帳號。
+   - 進入 **[OpenRouter Keys 管理頁面](https://openrouter.ai/keys)**。
+   - 點擊 **Create Key** 建立一組金鑰（格式為 `sk-or-v1-...`）並複製保存。
+   - *(提示：Jev 模型每次呼叫成本極低，單次約 $0.00002 美元，請確保帳戶有基本額度可用)*
+
+2. **建立本機環境變數**：  
+   在專案根目錄建立 `.env.local` 檔案（可參考 `.env.example`）：
 
 ```bash
-# 建立並編輯 .env.local
+# 建立並填入您的 OpenRouter 金鑰
 echo "OPENROUTER_API_KEY=sk-or-v1-你的OpenRouter金鑰" > .env.local
 ```
 
