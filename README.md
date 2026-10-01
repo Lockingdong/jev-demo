@@ -1,5 +1,10 @@
 # ⚡ Jev Model (System One) Local Demo 專案
 
+> ⚠️ **重要說明：本專案僅供本機（Local）環境測試與展示使用**  
+> 伺服器啟動指令已預設綁定 `127.0.0.1`，不對區網（LAN）開放，亦未設置公開生產環境等級的身分驗證與速率限制。**請勿直接發布或部署至公開網路作為外部服務。**
+
+---
+
 本專案是依據 [OpenRouter System One API 官方文件](https://openrouter.ai/docs/api/api-reference/systemone/submit-a-system-one-request) 所打造的本機互動式 Web 視覺化 Demo 儀表板，專門展示與測試 TypeSafe 開發的 **Jev** 決策模型（`typesafe/jev-1.13`）。
 
 ---
@@ -42,8 +47,8 @@ echo "OPENROUTER_API_KEY=sk-or-v1-你的OpenRouter金鑰" > .env.local
 npm run dev
 ```
 
-啟動後，使用瀏覽器開啟：
-👉 **http://localhost:3000**
+啟動後僅監聽本機（`127.0.0.1`），使用瀏覽器開啟：  
+👉 **http://localhost:3000** 或 **http://127.0.0.1:3000**
 
 ---
 
