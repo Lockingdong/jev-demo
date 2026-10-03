@@ -7,11 +7,9 @@ if (process.env.NODE_ENV !== "production") {
 
 export async function GET() {
   const hasKey = Boolean(process.env.OPENROUTER_API_KEY && process.env.OPENROUTER_API_KEY.trim().length > 0);
-  const keyPrefix = hasKey ? process.env.OPENROUTER_API_KEY!.slice(0, 10) + "..." : null;
 
   return NextResponse.json({
     hasKey,
-    keyPrefix,
   });
 }
 

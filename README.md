@@ -30,9 +30,28 @@
 
 ---
 
+## 📋 前置條件 (Prerequisites)
+
+在開始使用本專案之前，請確保您的本機環境已具備以下項目：
+
+- **Node.js**：`v18.18.0` 或更高版本（建議使用 `v20.x` LTS 或最新版本）
+- **套件管理器**：`npm`（隨附於 Node.js）、`pnpm` 或 `yarn`
+- **OpenRouter 帳號與金鑰**：擁有有效且具備可用額度的 [OpenRouter API Key](https://openrouter.ai/keys)
+- **網路連線**：可正常對外連線至 OpenRouter 官方 API (`https://openrouter.ai`)
+
+---
+
 ## 🚀 快速開始
 
-### 1. 取得並配置 OpenRouter API Key
+### 1. 安裝相依套件
+
+在專案根目錄執行以下指令安裝依賴項目：
+
+```bash
+npm install
+```
+
+### 2. 取得並配置 OpenRouter API Key
 
 1. **申請金鑰**：
    - 前往 [OpenRouter 官方網站](https://openrouter.ai/) 登入或註冊帳號。
@@ -48,7 +67,7 @@
 echo "OPENROUTER_API_KEY=sk-or-v1-你的OpenRouter金鑰" > .env.local
 ```
 
-### 2. 啟動本機開發伺服器
+### 3. 啟動本機開發伺服器
 
 ```bash
 npm run dev

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { ExternalLink, Zap } from "lucide-react";
 
 export const Header: React.FC = () => {
-  const [keyStatus, setKeyStatus] = useState<{ hasKey: boolean; keyPrefix: string | null } | null>(null);
+  const [keyStatus, setKeyStatus] = useState<{ hasKey: boolean } | null>(null);
   const [checking, setChecking] = useState(false);
 
   const checkStatus = async () => {
@@ -14,7 +14,7 @@ export const Header: React.FC = () => {
       const data = await res.json();
       setKeyStatus(data);
     } catch {
-      setKeyStatus({ hasKey: false, keyPrefix: null });
+      setKeyStatus({ hasKey: false });
     } finally {
       setChecking(false);
     }
@@ -57,7 +57,7 @@ export const Header: React.FC = () => {
           className={`status-pill ${keyStatus?.hasKey ? "ready" : "warning"}`}
           title={
             keyStatus?.hasKey
-              ? `API Key 已由 .env.local 載入 (${keyStatus.keyPrefix})`
+              ? "API Key 已由 .env.local 載入"
               : "請在專案根目錄 .env.local 設定 OPENROUTER_API_KEY"
           }
           style={{ fontSize: "0.82rem", padding: "0.35rem 0.75rem", cursor: "default" }}
